@@ -10,5 +10,6 @@
 
 int count_ones (int input);
 char *int_to_char_array (int input);
+char *compare_bits (char *a, char *b);
 
 #endif /* INCLUDE_LIBINT_HANDLER_H_ */

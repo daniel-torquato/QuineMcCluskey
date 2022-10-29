@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-I include -Wall
 
-includes := $(patsubst src/lib%.c,obj/lib%.o,$(wildcard src/lib*.c))
+includes := $(patsubst src/impl/lib%.c,obj/lib%.o,$(wildcard src/impl/lib*.c))
 
 all: bin/main
 	@mkdir -p obj bin
@@ -13,7 +13,11 @@ bin/main:  obj/main.o $(includes)
 obj/%.o: src/%.c
 	$(CC) $(CFLAGS) -o $@ -c $^
 	
-tests: bin/main
+	
+obj/lib%.o: src/impl/lib%.c
+	$(CC) $(CFLAGS) -o $@ -c $^
+	
+test_all: bin/main
 	cat tests/test01.dat | $^
 
 clean:

@@ -17,8 +17,6 @@ void char_list_free (struct char_list *self) {
 		free(walker);
 		walker = next;
 	}
-	if (self)
-		free(self);
 }
 
 void char_list_print(struct char_list *self) {

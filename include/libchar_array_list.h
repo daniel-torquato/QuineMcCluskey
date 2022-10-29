@@ -16,6 +16,8 @@ struct char_array_list {
 	struct char_list *tail;
 };
 
+struct char_array_list *char_array_list_init(void);
+struct char_array_list *char_array_list_compare_bits (struct char_array_list *a, struct char_array_list *b);
 void char_array_list_append (struct char_array_list *self, char *input) ;
 void char_array_list_free (struct char_array_list *self);
 void char_array_list_print(struct char_array_list *self);
