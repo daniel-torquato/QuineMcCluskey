@@ -1,3 +1,8 @@
 bin/*
+obj/*.o
 *.swp
 *.swo
+/.cproject
+/.project
+/*.o
+
