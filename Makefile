@@ -4,6 +4,7 @@ CFLAGS=-I include -Wall
 includes := $(patsubst src/lib%.c,obj/lib%.o,$(wildcard src/lib*.c))
 
 all: bin/main
+	@mkdir -p obj bin
 	@echo "Building"
 
 bin/main:  obj/main.o $(includes)
