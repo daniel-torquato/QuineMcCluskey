@@ -5,4 +5,5 @@ obj/*.o
 /.cproject
 /.project
 /*.o
+.idea/*
 

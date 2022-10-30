@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <libarray_list.h>
 #include <libbitset_group.h>
 #include <libint_handler.h>
 
