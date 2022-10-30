@@ -22,4 +22,4 @@ test_all: bin/main
 	cat tests/test01.dat | $^
 
 clean:
-	@rm -rf bin/*
+	@rm -rf bin/* obj/*

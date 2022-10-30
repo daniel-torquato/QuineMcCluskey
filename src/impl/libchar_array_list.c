@@ -5,6 +5,7 @@
  *      Author: daniel
  */
 #include <libchar_array_list.h>
+#include <libint_handler.h>
 #include <stdlib.h>
 
 struct char_array_list *char_array_list_init(void) {

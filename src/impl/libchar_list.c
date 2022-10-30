@@ -4,6 +4,7 @@
  *  Created on: Oct 29, 2022
  *      Author: daniel
  */
+#include <stdio.h>
 #include <stdlib.h>
 #include <libchar_list.h>
 
