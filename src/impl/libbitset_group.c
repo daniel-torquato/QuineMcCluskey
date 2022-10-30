@@ -13,8 +13,7 @@
 
 struct bitset_group *bitset_group_init() {
 	struct bitset_group *output = (struct bitset_group*) malloc(sizeof(struct bitset_group));
-	output->rank = -1;
-	output->table = NULL;
+    output->slot = NULL;
 	return output;
 }
 
@@ -22,65 +21,57 @@ struct bitset_group *bitset_group_init() {
  * Append new integer [input] to bitset_group
  */
 void bitset_group_add(struct bitset_group *self, int input) {
+    if (self) {
+        int rank = count_ones(input);
+        char *val = int_to_char_array(input);
+        struct bitset_group *group = bitset_group_create_rank(self, rank);
+        bitset_slot_append(group->slot, val);
+    }
+}
 
-	if (!self)
-		return;
-	int rank = count_ones(input);
-	char *val = int_to_char_array(input);
-
-	bool added = false;
-	struct bitset_group *walker = self, *prev = self;
-	while (walker) {
-		if (walker->rank == rank) {
-			if (!walker->table)
-				walker->table = char_array_list_init();
-			char_array_list_append(walker->table, val);
-			added = true;
-			break;
-		}
-		if (walker->rank > rank) {
-			break;
-		}
-		prev = walker;
-		walker = walker->next;
-	}
-	if (!added) {
-		if (prev) {
-			if (prev->rank == -1) {
-				prev->rank = rank;
-				if (!prev->table)
-					prev->table = char_array_list_init();
-				char_array_list_append(prev->table, val);
-			} else {
-				struct bitset_group *new = (struct bitset_group*) malloc(sizeof(struct bitset_group));
-				new->rank = rank;
-				new->table = char_array_list_init();
-				char_array_list_append(new->table, val);
-
-				new->next = prev->next;
-				prev->next = new;
-			}
-		}
-	}
+struct bitset_group *bitset_group_create_rank(struct bitset_group *self, int rank) {
+    struct bitset_group *walker = self, *prev = self;
+    struct bitset_group *output = self;
+    for (; walker; prev = walker, walker = walker->next) {
+        if (walker->slot && walker->slot->rank >= rank) {
+            output = walker;
+            break;
+        }
+    }
+    if (walker && !walker->slot) {
+        walker->slot = bitset_slot_init(rank);
+        output = walker;
+    }
+    if (prev && (!walker || (walker->slot && walker->slot->rank > rank))) {
+        if (!prev->slot) {
+            prev->slot = bitset_slot_init(rank);
+            output = prev;
+        } else if (prev->slot->rank < rank) {
+            struct bitset_group *new_group = bitset_group_init();
+            struct bitset_slot *new_slot = bitset_slot_init(rank);
+            new_group->slot = new_slot;
+            new_group->next = prev->next;
+            prev->next = new_group;
+            output = new_group;
+        }
+    }
+    return output;
 }
 
 void bitset_group_free(struct bitset_group *self) {
-	if (!self)
-		return;
-
-	struct bitset_group *walker = self;
-	while (walker) {
-		char_array_list_free(walker->table);
-		struct bitset_group *tmp = walker->next;
-		free(walker);
-		walker = tmp;
-	}
+	if (self) {
+        struct bitset_group *walker = self;
+        while (walker) {
+            struct bitset_group *next  = walker->next;
+            bitset_slot_free(walker->slot);
+            free(walker);
+            walker = next;
+        }
+    }
 }
 
 void bitset_group_print(struct bitset_group *self) {
 	for (struct bitset_group *walker = self; walker; walker = walker->next) {
-		printf ("%d: ", walker->rank);
-		char_array_list_print(walker->table);
-		printf ("\n");
+        bitset_slot_print(walker->slot);
 	}
 }

@@ -8,9 +8,10 @@
 #ifndef INCLUDE_LIBBITSET_GROUP_H_
 #define INCLUDE_LIBBITSET_GROUP_H_
 
+#include <libbitset_slot.h>
+
 struct bitset_group {
-	int rank;
-	struct char_array_list *table;
+	struct bitset_slot *slot;
 	struct bitset_group *next;
 };
 
@@ -21,5 +22,7 @@ void bitset_group_add(struct bitset_group *self, int input);
 void bitset_group_free(struct bitset_group *self);
 
 void bitset_group_print(struct bitset_group *self);
+
+struct bitset_group *bitset_group_create_rank(struct bitset_group *self, int rank);
 
 #endif /* INCLUDE_LIBBITSET_GROUP_H_ */
