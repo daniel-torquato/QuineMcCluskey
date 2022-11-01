@@ -15,6 +15,11 @@ void char_list_free (struct char_list *self) {
 	struct char_list *walker = self;
 	while (walker) {
 		struct char_list *next = walker->next;
+        if (walker->val) {
+            free(walker->val);
+            walker->val = NULL;
+        }
+        walker->next = NULL;
 		free(walker);
 		walker = next;
 	}
