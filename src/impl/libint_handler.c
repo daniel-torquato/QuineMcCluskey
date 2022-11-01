@@ -11,11 +11,10 @@
 /*
  * Count number of ones in input (integer)
  */
-int count_ones (int input) {
+int count_ones (char *input) {
 	int ret = 0;
-	while (input) {
-		ret += input % 2;
-		input >>= 1;
+	for (int i=0; input[i]; i++) {
+		ret += input[i] == '1';
 	}
 	return ret;
 }

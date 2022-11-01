@@ -17,7 +17,7 @@ struct bitset_group {
 
 struct bitset_group *bitset_group_init();
 
-void bitset_group_add(struct bitset_group *self, int input);
+void bitset_group_add(struct bitset_group *self, char *input);
 
 void bitset_group_free(struct bitset_group *self);
 

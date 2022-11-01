@@ -8,7 +8,7 @@
 #ifndef INCLUDE_LIBINT_HANDLER_H_
 #define INCLUDE_LIBINT_HANDLER_H_
 
-int count_ones (int input);
+int count_ones (char *input);
 char *int_to_char_array (int input);
 char *compare_bits (char *a, char *b);
 

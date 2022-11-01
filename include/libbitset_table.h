@@ -15,6 +15,10 @@ struct bitset_table {
 
 struct bitset_table *bitset_table_init();
 
+void bitset_table_append(struct bitset_table *self, char *input);
+
+void bitset_table_print(struct bitset_table *self);
+
 void bitset_table_free(struct bitset_table *self);
 
 #endif /* INCLUDE_LIBBITSET_TABLE_H_ */

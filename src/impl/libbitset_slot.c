@@ -24,7 +24,6 @@ void bitset_slot_append(struct bitset_slot *self, char *input) {
 void  bitset_slot_print(struct bitset_slot *self) {
     printf ("%d: ", self->rank);
     char_array_list_print(self->table);
-    printf ("\n");
 }
 
 

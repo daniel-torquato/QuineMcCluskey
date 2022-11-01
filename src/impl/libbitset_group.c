@@ -20,12 +20,11 @@ struct bitset_group *bitset_group_init() {
 /*
  * Append new integer [input] to bitset_group
  */
-void bitset_group_add(struct bitset_group *self, int input) {
+void bitset_group_add(struct bitset_group *self, char *input) {
     if (self) {
         int rank = count_ones(input);
-        char *val = int_to_char_array(input);
         struct bitset_group *group = bitset_group_create_rank(self, rank);
-        bitset_slot_append(group->slot, val);
+        bitset_slot_append(group->slot, input);
     }
 }
 
