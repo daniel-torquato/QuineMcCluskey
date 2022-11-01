@@ -40,16 +40,23 @@ char *compare_bits (char *a, char *b) {
 	int size_min = size_a >= size_b ? size_b : size_a;
 	int size_max = size_a >= size_b ? size_a : size_b;
 	char *output =  strdup(size_a >= size_b ? a : b);
-
-	for (int i=0; i<size_min; i++) {
+    int diff = 0;
+	for (int i=0; i<size_min && diff < 2; i++) {
 		if (a[size_a-1-i] != b[size_b-1-i]) {
 			output[size_max-1-i] = 'X';
+            diff++;
 		}
 	}
-	for (int i=size_min; i<size_max; i++) {
+	for (int i=size_min; i<size_max && diff < 2; i++) {
 		if (output[size_max-1-i] == '1') {
 			output[size_max-1-i] = 'X';
+            diff++;
 		}
 	}
+    if (diff > 1) {
+        free(output);
+        output = NULL;
+    }
+
 	return output;
 }
