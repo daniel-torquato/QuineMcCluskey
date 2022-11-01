@@ -6,6 +6,14 @@
 #include "libbitset_slot.h"
 #include "libint_handler.h"
 
+Test(bitset_slot, init) {
+    struct bitset_slot *slot = bitset_slot_init(-1);
+    cr_expect(slot != NULL, "slot is wrong");
+    cr_expect(slot->rank == -1, "rank is wrong for");
+    cr_expect(slot->table == NULL, "table is wrong");
+    bitset_slot_free(slot);
+}
+
 Test(bitset_slot, append) {
     int test_input[] = {11, 8, 12, 1024, 2048};
     int test_output[] = {3, 1, 2, 1, 1};
