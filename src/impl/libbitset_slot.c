@@ -18,7 +18,6 @@ void bitset_slot_append(struct bitset_slot *self, char *input) {
     if (self) {
         if (!self->table)
             self->table = char_array_list_init();
-        self->rank = count_ones(input);
         char_array_list_append(self->table, input);
     }
 }
