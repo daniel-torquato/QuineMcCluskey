@@ -57,7 +57,10 @@ struct char_array_list *char_array_list_compare_bits (struct char_array_list *a,
 	struct char_array_list *output = char_array_list_init();
 	for (struct char_list *walker_a = a->head; walker_a; walker_a = walker_a->next) {
 		for (struct char_list *walker_b = b->head; walker_b; walker_b = walker_b->next) {
-			char_array_list_append(output, compare_bits(walker_a->val, walker_b->val));
+            char *merged = compare_bits(walker_a->val, walker_b->val);
+            if (merged) {
+                char_array_list_append(output, merged);
+            }
 		}
 	}
 	return output;

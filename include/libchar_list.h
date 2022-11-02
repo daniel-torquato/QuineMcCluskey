@@ -8,6 +8,9 @@
 #ifndef INCLUDE_LIBCHAR_LIST_H_
 #define INCLUDE_LIBCHAR_LIST_H_
 
+/*
+ * test
+ */
 struct char_list {
 	char *val;
 	struct char_list *next;
