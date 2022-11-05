@@ -14,6 +14,8 @@ struct bitset_slot {
 
 struct bitset_slot *bitset_slot_init(int rank);
 
+struct pair *bitset_slot_merge(struct bitset_slot *a, struct bitset_slot *b);
+
 void bitset_slot_append(struct bitset_slot *self, char *input);
 
 void  bitset_slot_print(struct bitset_slot *self);
