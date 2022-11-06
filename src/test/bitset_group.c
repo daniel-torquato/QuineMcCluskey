@@ -10,7 +10,15 @@ Test(bitset_slot, resolve) {
     int input[] = {2, 3, 5, 11, 23, 47, 61};
     char *output[]={"1X", "X011", "101", "1011", "10111", "101111", "111101"};
     int input_size = sizeof(input)/sizeof(int);
-    struct bitset_group *input_list = bitset_group_init();
+    int base = 0;
+    static int tmp = 1;
+    for (int i=0; i<input_size; i++) {
+        while (input[i] > tmp) {
+            tmp <<= 1;
+            base++;
+        }
+    }
+    struct bitset_group *input_list = bitset_group_init(base);
     for (int i=0; i<input_size; i++) {
         bitset_group_add(input_list, int_to_char_array(input[i]));
     }

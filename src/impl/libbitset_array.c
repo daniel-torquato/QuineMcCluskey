@@ -8,6 +8,7 @@ struct bitset_array *bitset_array_init(int size) {
     struct bitset_array *output = (struct bitset_array *) malloc(sizeof(struct bitset_array));
     output->size = size;
     output->data = (int *) calloc(size / sizeof (int) + 1, sizeof(int));
+    return output;
 }
 
 void bitset_array_set(struct bitset_array *self, int index, bool state) {

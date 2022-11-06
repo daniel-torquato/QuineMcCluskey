@@ -4,6 +4,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "libbitset_table.h"
 
 struct bitset_table *bitset_table_init() {
@@ -16,8 +17,10 @@ struct bitset_table *bitset_table_init() {
 
 void bitset_table_append(struct bitset_table *self, char *input) {
     if (self) {
-        if (!self->column)
-            self->column = bitset_group_init();
+        if (!self->column) {
+            int length = strlen(input);
+            self->column = bitset_group_init(length);
+        }
         bitset_group_add(self->column, input);
     }
 }

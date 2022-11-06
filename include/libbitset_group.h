@@ -11,11 +11,11 @@
 #include <libbitset_slot.h>
 
 struct bitset_group {
-	struct bitset_slot *slot;
-	struct bitset_group *next;
+	int length;
+	struct bitset_slot **slots;
 };
 
-struct bitset_group *bitset_group_init();
+struct bitset_group *bitset_group_init(int length);
 
 void bitset_group_add(struct bitset_group *self, char *input);
 
