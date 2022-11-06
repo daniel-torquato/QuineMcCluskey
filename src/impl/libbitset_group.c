@@ -39,18 +39,36 @@ struct bitset_group *bitset_group_resolve(struct bitset_group *self) {
     struct bitset_group *output = NULL;
     if (self) {
         output = bitset_group_init(self->length);
-        for (int i=self->length-1; i>=1; i--) {
-            if (self->slots[i] && self->slots[i-1]) {
+        struct bitset_slot *buff = NULL;
+        for (int i = 0; i < self->length-1; i++) {
+            if (self->slots[i] && self->slots[i+1]) {
                 static struct pair *merged = NULL;
-                merged = bitset_slot_merge(self->slots[i-1], self->slots[i]);
+                merged = bitset_slot_merge(self->slots[i], self->slots[i+1]);
                 if (merged) {
-                    output->slots[i-1] = (struct bitset_slot *) merged->first;
-                    if (!output->slots[i] && merged->second) {
-                        output->slots[i] = (struct bitset_slot *) merged->second;
+                    if (buff) {
+                        static struct pair *resolve_merge;
+                        resolve_merge = bitset_slot_merge( (struct bitset_slot *) merged->first, buff);
+                        if (resolve_merge) {
+                            output->slots[i] = (struct bitset_slot *) resolve_merge->first;
+                            bitset_slot_free(buff);
+                            bitset_slot_free(merged->first);
+                            bitset_slot_free(resolve_merge->second);
+                            pair_free(resolve_merge);
+                        }
+                    } else {
+                        output->slots[i] = (struct bitset_slot *) merged->first;
                     }
+                    buff = (struct bitset_slot *) merged->second;
                 }
                 pair_free(merged);
             }
+        }
+        output->slots[output->length-1] = self->slots[self->length-1];
+        if (buff) {
+            if (buff->table) {
+                output->slots[output->length - 1] = buff;
+            } else
+                bitset_slot_free(buff);
         }
     }
     return output;

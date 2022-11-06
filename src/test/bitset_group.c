@@ -7,7 +7,7 @@
 #include <libint_handler.h>
 
 Test(bitset_slot, resolve) {
-    int input[] = {2, 3, 5, 11, 23, 47, 61};
+    int input[] = {0, 2, 3, 5, 11, 23, 47, 61};
     char *output[]={"1X", "X011", "101", "1011", "10111", "101111", "111101"};
     int input_size = sizeof(input)/sizeof(int);
     int base = 0;

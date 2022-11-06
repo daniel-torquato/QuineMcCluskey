@@ -31,17 +31,24 @@ void  bitset_slot_print(struct bitset_slot *self) {
 }
 
 struct pair *bitset_slot_merge(struct bitset_slot *a, struct bitset_slot *b) {
+    struct pair *output = pair_init(NULL, NULL);
+    if (a && b) {
+        struct bitset_slot *first = bitset_slot_init(a->rank);
+        struct bitset_slot *second = bitset_slot_init(b->rank);
+        output->first = first;
+        output->second = second;
 
-    struct bitset_slot *first = bitset_slot_init(a->rank);
-    struct bitset_slot *second = bitset_slot_init(b->rank);
-    struct pair *output = pair_init(first, second);
+        struct pair *merged = char_array_list_merge(a->table, b->table);
 
-    struct pair *merged = char_array_list_merge(a->table, b->table);
+        first->table = (struct char_array_list *) merged->first;
+        second->table = (struct char_array_list *) merged->second;
 
-    first->table = (struct char_array_list *) merged->first;
-    second->table = (struct char_array_list *) merged->second;
-
-    pair_free(merged);
+        pair_free(merged);
+    } else if (a) {
+        output->first = (struct bitset_slot *) a;
+    } else if (b) {
+        output->second = (struct bitset_slot *) b;
+    }
 
     return output;
 }
