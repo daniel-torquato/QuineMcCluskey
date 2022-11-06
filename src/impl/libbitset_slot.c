@@ -24,8 +24,10 @@ void bitset_slot_append(struct bitset_slot *self, char *input) {
 }
 
 void  bitset_slot_print(struct bitset_slot *self) {
-    printf ("%d: ", self->rank);
-    char_array_list_print(self->table);
+    if (self) {
+        printf("%d: ", self->rank);
+        char_array_list_print(self->table);
+    }
 }
 
 struct pair *bitset_slot_merge(struct bitset_slot *a, struct bitset_slot *b) {

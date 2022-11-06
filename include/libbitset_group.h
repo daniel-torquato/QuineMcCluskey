@@ -23,6 +23,8 @@ void bitset_group_free(struct bitset_group *self);
 
 void bitset_group_print(struct bitset_group *self);
 
+struct bitset_group *bitset_group_resolve(struct bitset_group *self);
+
 struct bitset_group *bitset_group_create_rank(struct bitset_group *self, int rank);
 
 #endif /* INCLUDE_LIBBITSET_GROUP_H_ */

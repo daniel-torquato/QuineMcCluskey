@@ -10,6 +10,7 @@
 #include <libbitset_group.h>
 #include <libchar_array_list.h>
 #include <libint_handler.h>
+#include "libpair.h"
 
 struct bitset_group *bitset_group_init() {
 	struct bitset_group *output = (struct bitset_group*) malloc(sizeof(struct bitset_group));
@@ -57,6 +58,31 @@ struct bitset_group *bitset_group_create_rank(struct bitset_group *self, int ran
     return output;
 }
 
+struct bitset_group *bitset_group_resolve(struct bitset_group *self) {
+    struct bitset_group *output = NULL;
+    if (self) {
+        output = bitset_group_init();
+        struct bitset_group *output_walker = output;
+        struct bitset_slot *buff = NULL;
+        for (struct bitset_group *walker = self; walker && walker->next; walker = walker->next) {
+            static struct pair *merged = NULL;
+            if (walker->slot->rank + 1 == walker->next->slot->rank) {
+                merged = bitset_slot_merge(walker->slot, walker->next->slot);
+            }
+            if (merged) {
+                output_walker->slot = (struct bitset_slot *) merged->first;
+                output_walker->next = bitset_group_init();
+                output_walker = output_walker->next;
+                bitset_slot_free(buff);
+                buff = (struct bitset_slot *) merged->second;
+            }
+            pair_free(merged);
+        }
+        output_walker->slot = buff;
+    }
+    return output;
+}
+
 void bitset_group_free(struct bitset_group *self) {
 	if (self) {
         struct bitset_group *walker = self;
@@ -70,7 +96,9 @@ void bitset_group_free(struct bitset_group *self) {
 }
 
 void bitset_group_print(struct bitset_group *self) {
-	for (struct bitset_group *walker = self; walker; walker = walker->next) {
-        bitset_slot_print(walker->slot);
-	}
+    if (self) {
+        for (struct bitset_group *walker = self; walker; walker = walker->next) {
+            bitset_slot_print(walker->slot);
+        }
+    }
 }
