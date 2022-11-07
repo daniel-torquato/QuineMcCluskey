@@ -9,7 +9,7 @@
 
 struct bitset_slot {
     int rank;
-    struct cell_list *table;
+    struct cell_list *cells;
 };
 
 struct bitset_slot *bitset_slot_init(int rank);

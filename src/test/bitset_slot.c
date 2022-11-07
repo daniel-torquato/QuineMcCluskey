@@ -11,7 +11,7 @@ Test(bitset_slot, init) {
     struct bitset_slot *slot = bitset_slot_init(-1);
     cr_expect(slot != NULL, "slot is wrong");
     cr_expect(slot->rank == -1, "rank is wrong for");
-    cr_expect(slot->table == NULL, "table is wrong");
+    cr_expect(slot->cells == NULL, "cells is wrong");
     bitset_slot_free(slot);
 }
 
@@ -26,12 +26,12 @@ Test(bitset_slot, append) {
         bitset_slot_append(slot, input);
         cr_expect(slot != NULL, "slot is wrong");
         cr_expect(slot->rank == test_output[i], "rank is wrong for %d", i);
-        cr_expect(slot->table != NULL, "table is wrong");
-        cr_expect(slot->table->size == 1, "size is wrong");
-        cr_expect(slot->table->head != NULL, "head is wrong");
-        cr_expect(slot->table->tail != NULL, "tail is wrong");
-        cr_expect(slot->table->head == slot->table->tail, "head != tail in table");
-        cr_expect(strcmp(slot->table->head->val, input) == 0, "val is wrong");
+        cr_expect(slot->cells != NULL, "cells is wrong");
+        cr_expect(slot->cells->size == 1, "size is wrong");
+        cr_expect(slot->cells->head != NULL, "head is wrong");
+        cr_expect(slot->cells->tail != NULL, "tail is wrong");
+        cr_expect(slot->cells->head == slot->cells->tail, "head != tail in cells");
+        cr_expect(strcmp(slot->cells->head->val, input) == 0, "val is wrong");
         bitset_slot_free(slot);
     }
 }
@@ -54,16 +54,16 @@ Test(bitset_slot, merge) {
     for (int i=0; i<size_a; i++)
         bitset_slot_append(bitset_a, int_to_char_array(input_a[i]));
     cr_expect(bitset_a != NULL, "wrong bitset_a");
-    cr_expect(bitset_a->table != NULL, "wrong bitset_a table");
-    cr_expect(bitset_a->table->head != NULL, "wrong bitset_a table head");
-    bitset_a->rank = count_ones( bitset_a->table->head->val);
+    cr_expect(bitset_a->cells != NULL, "wrong bitset_a cells");
+    cr_expect(bitset_a->cells->head != NULL, "wrong bitset_a cells head");
+    bitset_a->rank = count_ones( bitset_a->cells->head->val);
 
     for (int i=0; i<size_b; i++)
         bitset_slot_append(bitset_b, int_to_char_array(input_b[i]));
     cr_expect(bitset_b != NULL, "wrong bitset_b");
-    cr_expect(bitset_b->table != NULL, "wrong bitset_b table");
-    cr_expect(bitset_b->table->head != NULL, "wrong bitset_b table head");
-    bitset_b->rank = count_ones(bitset_b->table->head->val);
+    cr_expect(bitset_b->cells != NULL, "wrong bitset_b cells");
+    cr_expect(bitset_b->cells->head != NULL, "wrong bitset_b cells head");
+    bitset_b->rank = count_ones(bitset_b->cells->head->val);
 
     struct pair *merged_pair = bitset_slot_merge(bitset_a, bitset_b);
     cr_expect(merged_pair != NULL, "wrong merge");
@@ -72,11 +72,11 @@ Test(bitset_slot, merge) {
     struct bitset_slot *merged_a = (struct bitset_slot *) merged_pair->first;
     struct bitset_slot *merged_b = (struct bitset_slot *) merged_pair->second;
 
-    struct char_list *walker = merged_a->table->head;
+    struct char_list *walker = merged_a->cells->head;
     for (int i=0; i<size_output_a && walker; i++, walker = walker->next) {
         cr_expect(strcmp(walker->val, output_a[i]) == 0, "wrong output_a at %d", i);
     }
-    walker = merged_b->table->head;
+    walker = merged_b->cells->head;
     for (int i=0; i<size_output_b && walker; i++, walker = walker->next) {
         cr_expect(strcmp(walker->val, output_b[i]) == 0, "wrong output_b at %d", i);
     }
