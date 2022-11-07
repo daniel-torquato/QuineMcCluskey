@@ -8,7 +8,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <libbitset_group.h>
-#include "libcell_list.h"
 #include <libint_handler.h>
 #include "libpair.h"
 
