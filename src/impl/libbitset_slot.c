@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <libbitset_slot.h>
-#include <libchar_array_list.h>
+#include "libcell_list.h"
 #include "libint_handler.h"
 #include "libpair.h"
 
@@ -18,15 +18,15 @@ struct bitset_slot *bitset_slot_init(int rank) {
 void bitset_slot_append(struct bitset_slot *self, char *input) {
     if (self) {
         if (!self->table)
-            self->table = char_array_list_init();
-        char_array_list_append(self->table, input);
+            self->table = cell_list_init();
+        cell_list_append(self->table, input);
     }
 }
 
 void  bitset_slot_print(struct bitset_slot *self) {
     if (self) {
         printf("%d: ", self->rank);
-        char_array_list_print(self->table);
+        cell_list_print(self->table);
     }
 }
 
@@ -36,10 +36,10 @@ struct pair *bitset_slot_merge(struct bitset_slot *a, struct bitset_slot *b) {
     struct bitset_slot *second = bitset_slot_init(b->rank);
     struct pair *output = pair_init(first, second);
 
-    struct pair *merged = char_array_list_merge(a->table, b->table);
+    struct pair *merged = cell_list_merge(a->table, b->table);
 
-    first->table = (struct char_array_list *) merged->first;
-    second->table = (struct char_array_list *) merged->second;
+    first->table = (struct cell_list *) merged->first;
+    second->table = (struct cell_list *) merged->second;
 
     pair_free(merged);
 
@@ -48,7 +48,7 @@ struct pair *bitset_slot_merge(struct bitset_slot *a, struct bitset_slot *b) {
 
 void bitset_slot_free(struct bitset_slot *self) {
     if (self) {
-        char_array_list_free(self->table);
+        cell_list_free(self->table);
         free (self);
     }
 }

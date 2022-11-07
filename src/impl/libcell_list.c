@@ -1,18 +1,18 @@
 /*
- * libchar_array_list.c
+ * libcell_list.c
  *
  *  Created on: Oct 29, 2022
  *      Author: daniel
  */
-#include <libchar_array_list.h>
+#include "libcell_list.h"
 #include <libint_handler.h>
 #include <stdlib.h>
 #include <string.h>
 #include "libpair.h"
 #include "libbitset_array.h"
 
-struct char_array_list *char_array_list_init(void) {
-	struct char_array_list *output = (struct char_array_list *) malloc(sizeof(struct char_array_list));
+struct cell_list *cell_list_init(void) {
+	struct cell_list *output = (struct cell_list *) malloc(sizeof(struct cell_list));
 	output->size = 0;
 	output->head = NULL;
 	output->tail = NULL;
@@ -22,7 +22,7 @@ struct char_array_list *char_array_list_init(void) {
 /*
  * Append string to array list
  */
-void char_array_list_append (struct char_array_list *self, char *input) {
+void cell_list_append (struct cell_list *self, char *input) {
 	if (!self)
 		return;
 	struct char_list *new = (struct char_list *) malloc (sizeof(struct char_list));
@@ -39,11 +39,11 @@ void char_array_list_append (struct char_array_list *self, char *input) {
 	}
 }
 
-void char_array_list_add (struct char_array_list *self, char *input) {
-    char_array_list_append(self, strdup(input));
+void cell_list_add (struct cell_list *self, char *input) {
+    cell_list_append(self, strdup(input));
 }
 
-void char_array_list_free (struct char_array_list *self) {
+void cell_list_free (struct cell_list *self) {
 	if (self) {
 		char_list_free(self->head);
 		self->head = NULL;
@@ -52,17 +52,17 @@ void char_array_list_free (struct char_array_list *self) {
 	}
 }
 
-void char_array_list_print(struct char_array_list *self) {
+void cell_list_print(struct cell_list *self) {
 	if (self) {
 		char_list_print(self->head);
 	}
 }
 
-struct pair *char_array_list_merge (struct char_array_list *a, struct char_array_list *b) {
+struct pair *cell_list_merge (struct cell_list *a, struct cell_list *b) {
 	if (!a || !b)
 		return NULL;
-    struct char_array_list *first = char_array_list_init();
-    struct char_array_list *second = char_array_list_init();
+    struct cell_list *first = cell_list_init();
+    struct cell_list *second = cell_list_init();
 	struct pair *output = pair_init((void *) first, (void *) second);
 
     int rank_first = 0;
@@ -80,7 +80,7 @@ struct pair *char_array_list_merge (struct char_array_list *a, struct char_array
             if (merged) {
                 bitset_array_set(check_a, index_a, true);
                 bitset_array_set(check_b, index_b, true);
-                char_array_list_append(count_ones(merged) == rank_first ? first : second, merged);
+                cell_list_append(count_ones(merged) == rank_first ? first : second, merged);
 
             }
 		}
@@ -90,13 +90,13 @@ struct pair *char_array_list_merge (struct char_array_list *a, struct char_array
     walker = a->head;
     for (int i = 0; i < a->size && walker; i++, walker = walker->next) {
         if (!bitset_array_get(check_a, i)) {
-            char_array_list_add((struct char_array_list*) output->first, walker->val);
+            cell_list_add((struct cell_list *) output->first, walker->val);
         }
     }
     walker = b->head;
     for (int i = 0; i < b->size && walker; i++, walker = walker->next) {
         if (!bitset_array_get(check_b, i)) {
-            char_array_list_add((struct char_array_list*) output->second, walker->val);
+            cell_list_add((struct cell_list *) output->second, walker->val);
         }
     }
 

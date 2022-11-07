@@ -5,11 +5,11 @@
 #ifndef INCLUDE_LIBBITSET_SLOT_H
 #define INCLUDE_LIBBITSET_SLOT_H
 
-#include <libchar_array_list.h>
+#include "libcell_list.h"
 
 struct bitset_slot {
     int rank;
-    struct char_array_list *table;
+    struct cell_list *table;
 };
 
 struct bitset_slot *bitset_slot_init(int rank);
