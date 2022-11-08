@@ -63,7 +63,8 @@ struct pair *bitset_slot_merge(struct bitset_slot *a, struct bitset_slot *b) {
             if (merged) {
                 bitset_array_set(check_a, index_a, true);
                 bitset_array_set(check_b, index_b, true);
-                bitset_slot_append(cell_ones(merged) == a->rank ? first : second, merged);
+                bitset_slot_append(cell_ones(merged) == a->rank ? first : second, merged->word);
+                cell_free(merged, false);
             }
         }
 
@@ -72,13 +73,13 @@ struct pair *bitset_slot_merge(struct bitset_slot *a, struct bitset_slot *b) {
     walker = a->head;
     for (int i = 0; i < a->size && walker; i++, walker = walker->next) {
         if (!bitset_array_get(check_a, i)) {
-            bitset_slot_add((struct bitset_slot *) output->first, walker->val);
+            bitset_slot_add((struct bitset_slot *) output->first, walker->val->word);
         }
     }
     walker = b->head;
     for (int i = 0; i < b->size && walker; i++, walker = walker->next) {
         if (!bitset_array_get(check_b, i)) {
-            bitset_slot_add((struct bitset_slot *) output->second, walker->val);
+            bitset_slot_add((struct bitset_slot *) output->second, walker->val->word);
         }
     }
 
