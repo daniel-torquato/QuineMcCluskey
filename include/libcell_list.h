@@ -12,10 +12,11 @@
  * test
  */
 struct cell_list {
-	char *val;
+	struct cell *val;
 	struct cell_list *next;
 };
 
+struct cell_list *cell_list_init();
 void cell_list_free (struct cell_list *self);
 void cell_list_print(struct cell_list *self);
 

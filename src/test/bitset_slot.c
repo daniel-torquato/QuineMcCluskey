@@ -6,6 +6,7 @@
 #include "libbitset_slot.h"
 #include "libint_handler.h"
 #include "libpair.h"
+#include "libcell.h"
 
 Test(bitset_slot, init) {
     struct bitset_slot *slot = bitset_slot_init(-1);
@@ -32,7 +33,9 @@ Test(bitset_slot, append) {
         cr_expect(slot->head != NULL, "head is wrong");
         cr_expect(slot->tail != NULL, "tail is wrong");
         cr_expect(slot->head == slot->tail, "head != tail in cells");
-        cr_expect(strcmp(slot->head->val, input) == 0, "val is wrong");
+        struct cell *under_test_word = cell_init(input, false);
+        cr_expect(cell_compare(slot->head->val, under_test_word) == 0, "val is wrong");
+        cell_free(under_test_word, false);
         bitset_slot_free(slot);
     }
 }
@@ -56,13 +59,13 @@ Test(bitset_slot, merge) {
         bitset_slot_append(bitset_a, int_to_char_array(input_a[i]));
     cr_expect(bitset_a != NULL, "wrong bitset_a");
     cr_expect(bitset_a->head != NULL, "wrong bitset_a cells head");
-    bitset_a->rank = count_ones( bitset_a->head->val);
+    bitset_a->rank = cell_ones( bitset_a->head->val);
 
     for (int i=0; i<size_b; i++)
         bitset_slot_append(bitset_b, int_to_char_array(input_b[i]));
     cr_expect(bitset_b != NULL, "wrong bitset_b");
     cr_expect(bitset_b->head != NULL, "wrong bitset_b cells head");
-    bitset_b->rank = count_ones(bitset_b->head->val);
+    bitset_b->rank = cell_ones(bitset_b->head->val);
 
     struct pair *merged_pair = bitset_slot_merge(bitset_a, bitset_b);
     cr_expect(merged_pair != NULL, "wrong merge");
@@ -73,11 +76,15 @@ Test(bitset_slot, merge) {
 
     struct cell_list *walker = merged_a->head;
     for (int i=0; i<size_output_a && walker; i++, walker = walker->next) {
-        cr_expect(strcmp(walker->val, output_a[i]) == 0, "wrong output_a at %d", i);
+        struct cell *output_cell = cell_init(output_a[i], false);
+        cr_expect(cell_compare(walker->val, output_cell) == 0, "wrong output_a at %d", i);
+        cell_free(output_cell, false);
     }
     walker = merged_b->head;
     for (int i=0; i<size_output_b && walker; i++, walker = walker->next) {
-        cr_expect(strcmp(walker->val, output_b[i]) == 0, "wrong output_b at %d", i);
+        struct cell *output_cell = cell_init(output_b[i], false);
+        cr_expect(cell_compare(walker->val, output_cell) == 0, "wrong output_b at %d", i);
+        cell_free(output_cell, false);
     }
 
     pair_free(merged_pair);

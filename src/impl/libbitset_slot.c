@@ -2,12 +2,11 @@
 // Created by daniel on 11/1/22.
 //
 #include <stdio.h>
-#include <stdlib.h>
 #include <libbitset_slot.h>
 #include <string.h>
-#include "libint_handler.h"
 #include "libpair.h"
 #include "libbitset_array.h"
+#include "libcell.h"
 
 struct bitset_slot *bitset_slot_init(int rank) {
     struct bitset_slot *output = (struct bitset_slot *) malloc(sizeof(struct bitset_slot));
@@ -21,7 +20,7 @@ void bitset_slot_append(struct bitset_slot *self, char *input) {
     if (self) {
         struct cell_list *new = (struct cell_list *) malloc (sizeof(struct cell_list));
         self->size++;
-        new->val = input;
+        new->val = cell_init(input, false);
         new->next = NULL;
         if (self->tail) {
             self->tail->next = new;
@@ -60,11 +59,11 @@ struct pair *bitset_slot_merge(struct bitset_slot *a, struct bitset_slot *b) {
         int index_b = 0;
         for (struct cell_list *walker_b = b->head;
              walker_b && index_b < b->size; walker_b = walker_b->next, index_b++) {
-            char *merged = compare_bits(walker_a->val, walker_b->val);
+            struct cell *merged = cell_merge(walker_a->val, walker_b->val);
             if (merged) {
                 bitset_array_set(check_a, index_a, true);
                 bitset_array_set(check_b, index_b, true);
-                bitset_slot_append(count_ones(merged) == a->rank ? first : second, merged);
+                bitset_slot_append(cell_ones(merged) == a->rank ? first : second, merged);
             }
         }
 
