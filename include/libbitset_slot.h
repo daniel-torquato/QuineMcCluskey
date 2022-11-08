@@ -5,13 +5,13 @@
 #ifndef INCLUDE_LIBBITSET_SLOT_H
 #define INCLUDE_LIBBITSET_SLOT_H
 
-#include "libchar_list.h"
+#include "libcell_list.h"
 
 struct bitset_slot {
     int rank;
     int size;
-    struct char_list *head;
-    struct char_list *tail;
+    struct cell_list *head;
+    struct cell_list *tail;
 };
 
 struct bitset_slot *bitset_slot_init(int rank);

@@ -71,7 +71,7 @@ Test(bitset_slot, merge) {
     struct bitset_slot *merged_a = (struct bitset_slot *) merged_pair->first;
     struct bitset_slot *merged_b = (struct bitset_slot *) merged_pair->second;
 
-    struct char_list *walker = merged_a->head;
+    struct cell_list *walker = merged_a->head;
     for (int i=0; i<size_output_a && walker; i++, walker = walker->next) {
         cr_expect(strcmp(walker->val, output_a[i]) == 0, "wrong output_a at %d", i);
     }

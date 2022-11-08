@@ -1,20 +1,20 @@
 /*
- * libchar_list.c
+ * libcell_list.c
  *
  *  Created on: Oct 29, 2022
  *      Author: daniel
  */
 #include <stdio.h>
 #include <stdlib.h>
-#include <libchar_list.h>
+#include <libcell_list.h>
 
 /*
  * Free char linked list
  */
-void char_list_free (struct char_list *self) {
-	struct char_list *walker = self;
+void cell_list_free (struct cell_list *self) {
+	struct cell_list *walker = self;
 	while (walker) {
-		struct char_list *next = walker->next;
+		struct cell_list *next = walker->next;
         if (walker->val) {
             free(walker->val);
             walker->val = NULL;
@@ -25,8 +25,8 @@ void char_list_free (struct char_list *self) {
 	}
 }
 
-void char_list_print(struct char_list *self) {
-	for (struct char_list *walker = self; walker; walker = walker->next) {
+void cell_list_print(struct cell_list *self) {
+	for (struct cell_list *walker = self; walker; walker = walker->next) {
 		printf("%s->", walker->val);
 	}
 	printf("NULL\n");

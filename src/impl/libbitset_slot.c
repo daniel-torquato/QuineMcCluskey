@@ -19,7 +19,7 @@ struct bitset_slot *bitset_slot_init(int rank) {
 
 void bitset_slot_append(struct bitset_slot *self, char *input) {
     if (self) {
-        struct char_list *new = (struct char_list *) malloc (sizeof(struct char_list));
+        struct cell_list *new = (struct cell_list *) malloc (sizeof(struct cell_list));
         self->size++;
         new->val = input;
         new->next = NULL;
@@ -41,7 +41,7 @@ void bitset_slot_add(struct bitset_slot *self, char *input) {
 void  bitset_slot_print(struct bitset_slot *self) {
     if (self) {
         printf("%d: ", self->rank);
-        char_list_print(self->head);
+        cell_list_print(self->head);
     }
 }
 
@@ -56,9 +56,9 @@ struct pair *bitset_slot_merge(struct bitset_slot *a, struct bitset_slot *b) {
     struct bitset_array *check_b = bitset_array_init(b->size);
 
     int index_a = 0;
-    for (struct char_list *walker_a = a->head; walker_a && index_a < a->size; walker_a = walker_a->next, index_a++) {
+    for (struct cell_list *walker_a = a->head; walker_a && index_a < a->size; walker_a = walker_a->next, index_a++) {
         int index_b = 0;
-        for (struct char_list *walker_b = b->head;
+        for (struct cell_list *walker_b = b->head;
              walker_b && index_b < b->size; walker_b = walker_b->next, index_b++) {
             char *merged = compare_bits(walker_a->val, walker_b->val);
             if (merged) {
@@ -69,7 +69,7 @@ struct pair *bitset_slot_merge(struct bitset_slot *a, struct bitset_slot *b) {
         }
 
     }
-    static struct char_list *walker;
+    static struct cell_list *walker;
     walker = a->head;
     for (int i = 0; i < a->size && walker; i++, walker = walker->next) {
         if (!bitset_array_get(check_a, i)) {
@@ -91,7 +91,7 @@ struct pair *bitset_slot_merge(struct bitset_slot *a, struct bitset_slot *b) {
 
 void bitset_slot_free(struct bitset_slot *self) {
     if (self) {
-        char_list_free(self->head);
+        cell_list_free(self->head);
         free (self);
     }
 }
