@@ -36,18 +36,14 @@ void bitset_group_add(struct bitset_group *self, char *input) {
 struct bitset_group *bitset_group_resolve(struct bitset_group *self) {
     struct bitset_group *output = NULL;
     if (self) {
-        output = bitset_group_init(self->length);
-        for (int i=self->length-1; i>=1; i--) {
-            if (self->slots[i] && self->slots[i-1]) {
-                static struct pair *merged = NULL;
-                merged = bitset_slot_merge(self->slots[i-1], self->slots[i]);
+        output = bitset_group_init(self->length-1);
+        for (int i=0; i<self->length-1; i++) {
+            if (self->slots[i] && self->slots[i+1]) {
+                static struct bitset_slot *merged = NULL;
+                merged = bitset_slot_merge(self->slots[i], self->slots[i+1]);
                 if (merged) {
-                    output->slots[i-1] = (struct bitset_slot *) merged->first;
-                    if (!output->slots[i] && merged->second) {
-                        output->slots[i] = (struct bitset_slot *) merged->second;
-                    }
+                    output->slots[i] = merged;
                 }
-                pair_free(merged);
             }
         }
     }

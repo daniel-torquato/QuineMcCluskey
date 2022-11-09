@@ -44,48 +44,13 @@ void  bitset_slot_print(struct bitset_slot *self) {
     }
 }
 
-struct pair *bitset_slot_merge(struct bitset_slot *a, struct bitset_slot *b) {
-    if (!a || !b)
-        return NULL;
-    struct bitset_slot *first = bitset_slot_init(a->rank);
-    struct bitset_slot *second = bitset_slot_init(b->rank);
-    struct pair *output = pair_init((void *) first, (void *) second);
-
-    struct bitset_array *check_a = bitset_array_init(a->size);
-    struct bitset_array *check_b = bitset_array_init(b->size);
-
-    int index_a = 0;
-    for (struct cell_list *walker_a = a->head; walker_a && index_a < a->size; walker_a = walker_a->next, index_a++) {
-        int index_b = 0;
-        for (struct cell_list *walker_b = b->head;
-             walker_b && index_b < b->size; walker_b = walker_b->next, index_b++) {
-            struct cell *merged = cell_merge(walker_a->val, walker_b->val);
-            if (merged) {
-                bitset_array_set(check_a, index_a, true);
-                bitset_array_set(check_b, index_b, true);
-                bitset_slot_append(cell_ones(merged) == a->rank ? first : second, merged->word);
-                cell_free(merged, false);
-            }
-        }
-
+struct bitset_slot *bitset_slot_merge(struct bitset_slot *a, struct bitset_slot *b) {
+    struct bitset_slot *output = NULL;
+    if (a && b) {
+        output = bitset_slot_init(a->rank);
+        output->head = cell_list_merge(a->head, b->head);
+        output->size = cell_list_size(output->head);
     }
-    static struct cell_list *walker;
-    walker = a->head;
-    for (int i = 0; i < a->size && walker; i++, walker = walker->next) {
-        if (!bitset_array_get(check_a, i)) {
-            bitset_slot_add((struct bitset_slot *) output->first, walker->val->word);
-        }
-    }
-    walker = b->head;
-    for (int i = 0; i < b->size && walker; i++, walker = walker->next) {
-        if (!bitset_array_get(check_b, i)) {
-            bitset_slot_add((struct bitset_slot *) output->second, walker->val->word);
-        }
-    }
-
-    bitset_array_free(check_a);
-    bitset_array_free(check_b);
-
     return output;
 }
 

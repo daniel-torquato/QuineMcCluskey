@@ -44,16 +44,14 @@ Test(bitset_slot, append) {
 Test(bitset_slot, merge) {
     int input_a[] = {1,2,4, 8, 64};
     int input_b[] = {3,5,6, 9, 48};
-    char *output_a[] = {"X1", "X01", "X001", "1X", "X10", "10X", "1X0", "100X","1000000"};
-    char *output_b[] = {"110000"};
+    char *output[] = {"X1", "X01", "X001", "1X", "X10", "10X", "1X0", "100X"};
 
     struct bitset_slot *bitset_a = bitset_slot_init(0);
     struct bitset_slot *bitset_b = bitset_slot_init(0);
 
     int size_a = sizeof(input_a)/sizeof(int);
-    int size_output_a = sizeof(output_a)/sizeof(char *);
     int size_b = sizeof(input_b)/sizeof(int);
-    int size_output_b = sizeof(output_b)/sizeof(char *);
+    int size_output = sizeof(output)/sizeof(char *);
 
     for (int i=0; i<size_a; i++)
         bitset_slot_append(bitset_a, int_to_char_array(input_a[i]));
@@ -63,33 +61,22 @@ Test(bitset_slot, merge) {
 
     for (int i=0; i<size_b; i++)
         bitset_slot_append(bitset_b, int_to_char_array(input_b[i]));
-    cr_expect(bitset_b != NULL, "wrong bitset_b");
-    cr_expect(bitset_b->head != NULL, "wrong bitset_b cells head");
-    bitset_b->rank = cell_ones(bitset_b->head->val);
+    cr_expect(bitset_b != NULL, "wrong bitset_a");
+    cr_expect(bitset_b->head != NULL, "wrong bitset_a cells head");
+    bitset_b->rank = cell_ones( bitset_b->head->val);
 
-    struct pair *merged_pair = bitset_slot_merge(bitset_a, bitset_b);
-    cr_expect(merged_pair != NULL, "wrong merge");
-    cr_expect(merged_pair->first != NULL, "wrong first pair");
-    cr_expect(merged_pair->second != NULL, "wrong second pair");
-    struct bitset_slot *merged_a = (struct bitset_slot *) merged_pair->first;
-    struct bitset_slot *merged_b = (struct bitset_slot *) merged_pair->second;
+    struct bitset_slot *merged = bitset_slot_merge(bitset_a, bitset_b);
+    cr_expect(merged != NULL, "wrong merge");
+    struct cell_list *walker = merged->head;
+    for (int i=0; i<size_output && walker; i++, walker = walker->next) {
+        struct cell *tmp_cell = cell_init(output[i], false);
 
-    struct cell_list *walker = merged_a->head;
-    for (int i=0; i<size_output_a && walker; i++, walker = walker->next) {
-        struct cell *output_cell = cell_init(output_a[i], false);
-        cr_expect(cell_compare(walker->val, output_cell) == 0, "wrong output_a at %d", i);
-        cell_free(output_cell, false);
-    }
-    walker = merged_b->head;
-    for (int i=0; i<size_output_b && walker; i++, walker = walker->next) {
-        struct cell *output_cell = cell_init(output_b[i], false);
-        cr_expect(cell_compare(walker->val, output_cell) == 0, "wrong output_b at %d", i);
-        cell_free(output_cell, false);
+        cr_expect(cell_compare(walker->val, tmp_cell) == 0, "wrong output_a at %d", i);
+
+        cell_free(tmp_cell, false);
     }
 
-    pair_free(merged_pair);
-    bitset_slot_free(merged_a);
-    bitset_slot_free(merged_b);
+    bitset_slot_free(merged);
     bitset_slot_free(bitset_a);
     bitset_slot_free(bitset_b);
 }

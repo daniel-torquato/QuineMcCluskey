@@ -86,3 +86,11 @@ void cell_list_print(struct cell_list *self) {
 	}
 	printf("NULL\n");
 }
+
+int cell_list_size(struct cell_list *self) {
+    int output = 0;
+    for (struct cell_list *walker = self; walker; walker = walker->next) {
+        output++;
+    }
+    return output;
+}
