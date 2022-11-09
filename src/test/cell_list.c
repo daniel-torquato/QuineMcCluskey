@@ -11,13 +11,14 @@ Test(cell_list, merge) {
     char *output[] = {"X1", "X01", "X001", "1X", "X10", "10X", "1X0", "100X"};
     int size_a = sizeof(input_a)/sizeof(int);
     int size_b = sizeof(input_b)/sizeof(int);
-    int size_output = sizeof(output)/sizeof(int);
+    int size_output = sizeof(output)/sizeof(char *);
 
     struct cell_list *list_a = cell_list_init_array(input_a, size_a);
     struct cell_list *list_b = cell_list_init_array(input_b, size_b);
     struct cell_list *merged  = cell_list_merge(list_a, list_b);
     struct cell_list *walker = merged;
     for (int i=0; i<size_output && walker; i++) {
+        // TODO: remove directly strcmp usage
         cr_expect(strcmp(walker->val->word, output[i]) == 0, "wrong word at %d", i);
         walker = walker->next;
     }
