@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <libbitset_slot.h>
 #include <string.h>
-#include "libpair.h"
 #include "libbitset_array.h"
 #include "libcell.h"
 

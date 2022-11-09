@@ -5,7 +5,6 @@
 #include <string.h>
 #include "libbitset_slot.h"
 #include "libint_handler.h"
-#include "libpair.h"
 #include "libcell.h"
 
 Test(bitset_slot, init) {

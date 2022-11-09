@@ -8,7 +8,6 @@
 #include <stdlib.h>
 #include <libbitset_group.h>
 #include <libint_handler.h>
-#include "libpair.h"
 
 struct bitset_group *bitset_group_init(int length) {
 	struct bitset_group *output = (struct bitset_group*) malloc(sizeof(struct bitset_group));
