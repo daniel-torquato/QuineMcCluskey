@@ -15,6 +15,8 @@ struct cell {
 
 struct cell *cell_init(char *word, bool flag);
 
+struct cell *cell_init_int(int input);
+
 struct cell *cell_merge(struct cell *a, struct cell *b);
 
 void cell_print(struct cell *self);

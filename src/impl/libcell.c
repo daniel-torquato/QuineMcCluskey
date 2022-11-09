@@ -13,6 +13,22 @@ struct cell *cell_init(char *word, bool flag) {
     return output;
 }
 
+struct cell *cell_init_int(int input) {
+    struct cell *output  = cell_init(NULL, false);
+    int size  = 1;
+    for (int tmp = input/2; tmp; tmp >>= 1) {size++;}
+
+    output->word = (char *) malloc(sizeof(char) * (size+1));
+    output->word[size] = '\0';
+
+    for (int i = 0; i<size; i++) {
+        output->word[size-1-i] = input % 2 + '0';
+        input >>= 1;
+    }
+
+    return output;
+}
+
 struct cell *cell_merge(struct cell *a, struct cell *b) {
     struct cell *output = NULL;
     if (a && b) {
@@ -61,7 +77,7 @@ int cell_compare(struct cell *a, struct cell *b) {
 
 void cell_print(struct cell *self) {
     if (self) {
-        printf("%s_%d", self->word, self->flag);
+        printf("{%s:%d}", self->word, self->flag);
     }
 }
 
