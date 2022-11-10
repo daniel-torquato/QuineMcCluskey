@@ -12,6 +12,7 @@
 
 struct bitset_group {
 	int length;
+    int size;
 	struct bitset_slot **slots;
 };
 

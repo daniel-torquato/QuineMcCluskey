@@ -12,6 +12,7 @@
 struct bitset_group *bitset_group_init(int length) {
 	struct bitset_group *output = (struct bitset_group*) malloc(sizeof(struct bitset_group));
     output->length = length;
+    output->size = 0;
     output->slots = NULL;
     if (length) {
         output->slots = (struct bitset_slot **) calloc(sizeof(struct bitset_slot *) , length);
@@ -26,6 +27,7 @@ void bitset_group_add(struct bitset_group *self, char *input) {
     if (self) {
         int rank = count_ones(input);
         if (self->slots[rank] == NULL) {
+            self->size++;
             self->slots[rank] = bitset_slot_init(rank);
         }
         bitset_slot_append(self->slots[rank], input);
@@ -41,6 +43,7 @@ struct bitset_group *bitset_group_resolve(struct bitset_group *self) {
                 static struct bitset_slot *merged = NULL;
                 merged = bitset_slot_merge(self->slots[i], self->slots[i+1]);
                 if (merged) {
+                    output->size++;
                     output->slots[i] = merged;
                 }
             }

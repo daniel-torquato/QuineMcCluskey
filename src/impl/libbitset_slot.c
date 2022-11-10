@@ -46,9 +46,12 @@ void  bitset_slot_print(struct bitset_slot *self) {
 struct bitset_slot *bitset_slot_merge(struct bitset_slot *a, struct bitset_slot *b) {
     struct bitset_slot *output = NULL;
     if (a && b) {
-        output = bitset_slot_init(a->rank);
-        output->head = cell_list_merge(a->head, b->head);
-        output->size = cell_list_size(output->head);
+        struct cell_list *merged = cell_list_merge(a->head, b->head);
+        if (merged) {
+            output = bitset_slot_init(a->rank);
+            output->head = merged;
+            output->size = cell_list_size(output->head);
+        }
     }
     return output;
 }
