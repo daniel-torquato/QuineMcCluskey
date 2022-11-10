@@ -26,11 +26,13 @@ struct bitset_group *bitset_group_init(int length) {
 void bitset_group_add(struct bitset_group *self, char *input) {
     if (self) {
         int rank = count_ones(input);
-        if (self->slots[rank] == NULL) {
-            self->size++;
-            self->slots[rank] = bitset_slot_init(rank);
+        if (self->slots) {
+            if (self->slots[rank] == NULL) {
+                self->size++;
+                self->slots[rank] = bitset_slot_init(rank);
+            }
+            bitset_slot_append(self->slots[rank], input);
         }
-        bitset_slot_append(self->slots[rank], input);
     }
 }
 
@@ -57,6 +59,7 @@ void bitset_group_free(struct bitset_group *self) {
         for (int i=0; i<self->length; i++) {
             bitset_slot_free(self->slots[i]);
         }
+        free(self);
     }
 }
 

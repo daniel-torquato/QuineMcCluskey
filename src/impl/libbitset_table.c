@@ -7,21 +7,31 @@
 #include <string.h>
 #include "libbitset_table.h"
 
-struct bitset_table *bitset_table_init() {
+struct bitset_table *bitset_table_init(int base) {
     struct bitset_table *output = (struct bitset_table *) malloc(sizeof(struct bitset_table));
     output->level = 0;
-    output->column = NULL;
+    output->base = base;
+    output->column = bitset_group_init(base);
     output->next = NULL;
     return output;
 }
 
 void bitset_table_append(struct bitset_table *self, char *input) {
     if (self) {
-        if (!self->column) {
-            int length = strlen(input);
-            self->column = bitset_group_init(length);
-        }
         bitset_group_add(self->column, input);
+    }
+}
+
+void bitset_table_resolve(struct bitset_table *self) {
+    struct bitset_table *walker = self;
+    for (;walker; ) {
+        struct bitset_group *solved = bitset_group_resolve(walker->column);
+        if (solved) {
+            // TODO: remove base from bitset_table
+            walker->next = bitset_table_init(walker->base);
+            walker = walker->next;
+            walker->column = solved;
+        }
     }
 }
 

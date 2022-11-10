@@ -9,11 +9,12 @@
 
 struct bitset_table {
     int level;
+    int base;
     struct bitset_group *column;
     struct bitset_table *next;
 };
 
-struct bitset_table *bitset_table_init();
+struct bitset_table *bitset_table_init(int base);
 
 void bitset_table_append(struct bitset_table *self, char *input);
 
