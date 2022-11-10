@@ -15,11 +15,11 @@ struct slot *slot_init(int rank) {
     return output;
 }
 
-void slot_append(struct slot *self, char *input) {
+void slot_append(struct slot *self, struct cell *input) {
     if (self) {
         struct cell_list *new = (struct cell_list *) malloc (sizeof(struct cell_list));
         self->size++;
-        new->val = cell_init(input, false);
+        new->val = input;
         new->next = NULL;
         if (self->tail) {
             self->tail->next = new;
@@ -30,10 +30,6 @@ void slot_append(struct slot *self, char *input) {
             self->tail = new;
         }
     }
-}
-
-void bitset_slot_add(struct slot *self, char *input) {
-    slot_append(self, strdup(input));
 }
 
 void  slot_print(struct slot *self) {

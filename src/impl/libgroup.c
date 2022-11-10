@@ -31,7 +31,7 @@ void group_add(struct group *self, char *input) {
                 self->size++;
                 self->slots[rank] = slot_init(rank);
             }
-            slot_append(self->slots[rank], input);
+            //TODO: add slot_append(self->slots[rank], input);
         }
     }
 }

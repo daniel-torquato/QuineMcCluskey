@@ -18,7 +18,7 @@ struct slot *slot_init(int rank);
 
 struct slot *slot_merge(struct slot *a, struct slot *b);
 
-void slot_append(struct slot *self, char *input);
+void slot_append(struct slot *self, struct cell *input);
 
 void bitset_slot_add(struct slot *self, char *input);
 

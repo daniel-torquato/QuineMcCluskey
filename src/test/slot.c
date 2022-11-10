@@ -24,7 +24,8 @@ Test(slot, append) {
         char *input = int_to_char_array(test);
         int rank = count_ones(input);
         struct slot *slot = slot_init(rank);
-        slot_append(slot, input);
+        struct cell *input_cell = cell_init(input, false);
+        slot_append(slot, input_cell);
         cr_expect(slot != NULL, "slot is wrong");
         cr_expect(slot->rank == test_output[i], "rank is wrong for %d", i);
         cr_expect(slot->head != NULL, "cells is wrong");
@@ -52,14 +53,20 @@ Test(slot, merge) {
     int size_b = sizeof(input_b)/sizeof(int);
     int size_output = sizeof(output)/sizeof(char *);
 
-    for (int i=0; i<size_a; i++)
-        slot_append(slot_a, int_to_char_array(input_a[i]));
+    for (int i=0; i<size_a; i++) {
+        struct cell *input_cell = cell_init(int_to_char_array(input_a[i]), false);
+        slot_append(slot_a, input_cell);
+    }
+
     cr_expect(slot_a != NULL, "wrong slot_a");
     cr_expect(slot_a->head != NULL, "wrong slot_a cells head");
     slot_a->rank = cell_ones(slot_a->head->val);
 
-    for (int i=0; i<size_b; i++)
-        slot_append(slot_b, int_to_char_array(input_b[i]));
+    for (int i=0; i<size_b; i++) {
+        struct cell *input_cell = cell_init(int_to_char_array(input_b[i]), false);
+        slot_append(slot_b, input_cell);
+    }
+
     cr_expect(slot_b != NULL, "wrong slot_a");
     cr_expect(slot_b->head != NULL, "wrong slot_a cells head");
     slot_b->rank = cell_ones(slot_b->head->val);
