@@ -19,6 +19,7 @@ int main (int argc, char **argv)
     table_print(resolution_table);
 
     table_free(resolution_table);
+    slot_free(buffer);
 
 	return 0;
 }
