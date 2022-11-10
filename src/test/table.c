@@ -2,7 +2,7 @@
 // Created by daniel on 11/10/22.
 //
 #include <criterion/criterion.h>
-#include "libtable_list.h"
+#include "libtable.h"
 #include "libint_handler.h"
 
 Test(table_list, resolve) {
@@ -19,13 +19,14 @@ Test(table_list, resolve) {
         base++;
     }
 
-    struct table_list *input_table = table_list_init(base);
+    struct table *input_table = table_init(base);
     for(int i=0; i<size_input; i++) {
-        table_list_append(input_table, int_to_char_array(input[i]));
+        table_append(input_table, int_to_char_array(input[i]));
     }
-    table_list_print(input_table);
+    table_resolve(input_table);
+    table_print(input_table);
 
-    table_list_free(input_table);
+    table_free(input_table);
 
     cr_expect(true, "ok");
 }
