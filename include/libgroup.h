@@ -18,7 +18,7 @@ struct group {
 
 struct group *group_init(int length);
 
-void group_add(struct group *self, char *input);
+void group_append(struct group *self, struct slot *input);
 
 void group_free(struct group *self);
 

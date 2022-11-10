@@ -5,6 +5,7 @@
 #include <criterion/criterion.h>
 #include <libgroup.h>
 #include <libint_handler.h>
+#include "libcell.h"
 
 Test(group, resolve) {
     int input[] = {2, 3, 5, 11, 23, 47, 61};
@@ -20,10 +21,13 @@ Test(group, resolve) {
     }
     struct group *input_list = group_init(base);
     for (int i=0; i<input_size; i++) {
-        group_add(input_list, int_to_char_array(input[i]));
+        struct cell *cell = cell_init_int(input[i]);
+        struct slot *slot = slot_init(cell_ones(cell));
+        slot_append(slot, cell);
+        group_append(input_list, slot);
     }
     cr_expect(input_list != NULL, "wrong list");
-    cr_expect(input_list->size == 5, "wrong size");
+    cr_expect(input_list->size == 7, "wrong size for %d", input_list->size);
     group_print(input_list);
     struct group *resolved = bitset_group_resolve(input_list);
     cr_expect(resolved != NULL, "wrong solution");

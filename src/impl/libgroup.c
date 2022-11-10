@@ -23,15 +23,17 @@ struct group *group_init(int length) {
 /*
  * Append new integer [input] to group
  */
-void group_add(struct group *self, char *input) {
-    if (self) {
-        int rank = count_ones(input);
-        if (self->slots) {
-            if (self->slots[rank] == NULL) {
+void group_append(struct group *self, struct slot *input) {
+    if (self && input) {
+        if (self->slots && input->head) {
+            if (self->slots[input->rank] == NULL) {
                 self->size++;
-                self->slots[rank] = slot_init(rank);
+                self->slots[input->rank] = input;
             }
-            //TODO: add slot_append(self->slots[rank], input);
+            else {
+                self->size += input->size;
+                self->slots[input->rank]->tail->next = input->head;
+            }
         }
     }
 }

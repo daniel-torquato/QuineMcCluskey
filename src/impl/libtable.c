@@ -31,7 +31,7 @@ void table_init_base(struct table *self, int base) {
 
 void table_append(struct table *self, char *input) {
     if (self) {
-        group_add(self->column[0], input);
+        group_append(self->column[0], input);
     }
 }
 
