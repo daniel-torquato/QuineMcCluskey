@@ -5,8 +5,8 @@
  *      Author: daniel
  */
 
-#ifndef INCLUDE_LIBBITSET_GROUP_H_
-#define INCLUDE_LIBBITSET_GROUP_H_
+#ifndef INCLUDE_GROUP_H_
+#define INCLUDE_GROUP_H_
 
 #include <libslot.h>
 
@@ -28,4 +28,4 @@ struct group *bitset_group_resolve(struct group *self);
 
 struct group *bitset_group_create_rank(struct group *self, int rank);
 
-#endif /* INCLUDE_LIBBITSET_GROUP_H_ */
+#endif /* INCLUDE_GROUP_H_ */

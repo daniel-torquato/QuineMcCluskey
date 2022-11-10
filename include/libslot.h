@@ -2,8 +2,8 @@
 // Created by daniel on 10/30/22.
 //
 
-#ifndef INCLUDE_LIBBITSET_SLOT_H
-#define INCLUDE_LIBBITSET_SLOT_H
+#ifndef INCLUDE_SLOT_H_
+#define INCLUDE_SLOT_H_
 
 #include "libcell_list.h"
 
@@ -26,4 +26,4 @@ void  slot_print(struct slot *self);
 
 void slot_free(struct slot *self);
 
-#endif //INCLUDE_LIBBITSET_SLOT_H
+#endif //INCLUDE_SLOT_H_

@@ -5,8 +5,8 @@
  *      Author: daniel
  */
 
-#ifndef INCLUDE_LIBCELL_LIST_H_
-#define INCLUDE_LIBCELL_LIST_H_
+#ifndef INCLUDE_CELL_LIST_H_
+#define INCLUDE_CELL_LIST_H_
 
 /*
  * test
@@ -23,4 +23,4 @@ void cell_list_free (struct cell_list *self);
 void cell_list_print(struct cell_list *self);
 int cell_list_size(struct cell_list *self);
 
-#endif /* INCLUDE_LIBCELL_LIST_H_ */
+#endif /* INCLUDE_CELL_LIST_H_ */

@@ -2,8 +2,8 @@
 // Created by daniel on 11/8/22.
 //
 
-#ifndef QUINEMCCLUSKEY_LIBCELL_H
-#define QUINEMCCLUSKEY_LIBCELL_H
+#ifndef INCLUDE_CELL_H_
+#define INCLUDE_CELL_H_
 
 #include <stdbool.h>
 
@@ -27,4 +27,4 @@ int cell_ones(struct cell *self);
 
 int cell_compare(struct cell *a, struct cell *b);
 
-#endif //QUINEMCCLUSKEY_LIBCELL_H
+#endif //INCLUDE_CELL_H_

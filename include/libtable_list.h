@@ -2,8 +2,8 @@
 // Created by daniel on 10/31/22.
 //
 
-#ifndef INCLUDE_LIBBITSET_TABLE_H_
-#define INCLUDE_LIBBITSET_TABLE_H_
+#ifndef INCLUDE_TABLE_LIST_H_
+#define INCLUDE_TABLE_LIST_H_
 
 #include <libgroup.h>
 
@@ -22,4 +22,4 @@ void table_list_print(struct table_list *self);
 
 void table_list_free(struct table_list *self);
 
-#endif /* INCLUDE_LIBBITSET_TABLE_H_ */
+#endif /* INCLUDE_TABLE_LIST_H_ */
