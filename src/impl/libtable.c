@@ -29,9 +29,12 @@ void table_init_base(struct table *self, int base) {
     }
 }
 
-void table_append(struct table *self, char *input) {
-    if (self) {
-        group_append(self->column[0], input);
+void table_append(struct table *self, struct group *input) {
+    if (self && input) {
+        int cube = self->base - input->length;
+        if (self->column[cube] == NULL) {
+            self->column[cube] = input;
+        }
     }
 }
 
@@ -42,10 +45,12 @@ void table_resolve(struct table *self) {
 }
 
 void table_print(struct table *self) {
-    for (int i=0; i<self->base; i++) {
-        printf("level = [%d]\n", i);
-        group_print(self->column[i]);
-        printf("<>\n");
+    if (self) {
+        for (int i = 0; i < self->base; i++) {
+            printf("level = [%d]\n", i);
+            group_print(self->column[i]);
+            printf("<>\n");
+        }
     }
 }
 

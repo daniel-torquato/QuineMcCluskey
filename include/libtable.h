@@ -16,7 +16,7 @@ struct table *table_init(int base);
 
 void table_init_base(struct table *self, int base);
 
-void table_append(struct table *self, char *input);
+void table_append(struct table *self, struct group *input);
 
 void table_resolve(struct table *self);
 
