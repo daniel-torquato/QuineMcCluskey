@@ -32,6 +32,12 @@ void slot_list_append(struct slot_list *self, struct slot *input) {
     }
 }
 
+void slot_list_append_slot_list(struct slot_list *self, struct slot_list *input) {
+    for (struct slot_list *walker = input; walker; walker = walker->next) {
+        slot_list_append(self, walker->val);
+    }
+}
+
 struct slot_list *slot_list_create_rank(struct slot_list *self, int rank) {
     struct slot_list *output = NULL;
     for (struct slot_list *walker = self, *prev = NULL;
