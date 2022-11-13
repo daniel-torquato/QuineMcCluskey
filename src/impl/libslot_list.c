@@ -69,6 +69,20 @@ struct slot_list *slot_list_create_rank(struct slot_list *self, int rank) {
     return output;
 }
 
+struct slot_list *slot_list_resolve(struct slot_list *self) {
+    struct slot_list *output = NULL;
+    if (self) {
+        output = slot_list_init();
+        for (struct slot_list *walker = self, *next = self->next; walker && next; walker = next, next = next->next) {
+            struct slot *merged = slot_merge(walker->val, next->val);
+            if (merged) {
+                slot_list_append(output, merged);
+            }
+        }
+    }
+    return output;
+}
+
 void slot_list_free(struct slot_list *self) {
     if (self) {
         for (struct slot_list *walker = self, *next = self; walker; walker = next) {

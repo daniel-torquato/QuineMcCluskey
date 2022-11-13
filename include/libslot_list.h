@@ -20,6 +20,8 @@ struct slot_list *slot_list_create_rank(struct slot_list *self, int rank);
 
 void slot_list_append_slot_list(struct slot_list *self, struct slot_list *input);
 
+struct slot_list *slot_list_resolve(struct slot_list *self);
+
 void slot_list_print(struct slot_list *self);
 
 void slot_list_free(struct slot_list *self);
