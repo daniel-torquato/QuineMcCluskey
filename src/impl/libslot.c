@@ -33,6 +33,18 @@ void slot_append(struct slot *self, struct cell *input) {
     }
 }
 
+void slot_append_slot(struct slot *self, struct slot *input) {
+    if (self && input) {
+        if (self->tail) {
+            self->tail->next = input->head;
+        } else {
+            self->head = input->head;
+        }
+        self->size += input->size;
+        self->tail = input->tail;
+    }
+}
+
 void  slot_print(struct slot *self) {
     if (self) {
         printf("%d: ", self->rank);

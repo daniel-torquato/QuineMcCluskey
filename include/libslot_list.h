@@ -8,12 +8,15 @@
 #include "libslot.h"
 
 struct slot_list {
-    int size;
     struct slot *val;
     struct slot_list *next;
 };
 
 struct slot_list *slot_list_init();
+
+void slot_list_append(struct slot_list *self, struct slot *input);
+
+struct slot_list *slot_list_create_rank(struct slot_list *self, int rank);
 
 void slot_list_print(struct slot_list *self);
 

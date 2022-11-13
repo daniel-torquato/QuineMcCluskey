@@ -20,6 +20,8 @@ struct slot *slot_merge(struct slot *a, struct slot *b);
 
 void slot_append(struct slot *self, struct cell *input);
 
+void slot_append_slot(struct slot *self, struct slot *input);
+
 void bitset_slot_add(struct slot *self, char *input);
 
 void  slot_print(struct slot *self);
