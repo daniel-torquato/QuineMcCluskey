@@ -21,6 +21,24 @@ void cube_append(struct cube *self, struct slot_list *input) {
     }
 }
 
+struct cube *cube_resolve(struct cube *self) {
+    struct cube *output = NULL;
+    if (self) {
+        output = cube_init(self->level+1);
+        struct slot_list *merged = slot_list_resolve(self->head);
+        if (merged) {
+            output->size = 0;
+            output->head = merged;
+            // TODO: create method in slot_list to get latest element
+            for (struct slot_list *walker = output->head; walker; walker = walker->next) {
+                output->tail = walker;
+                output->size++;
+            }
+        }
+    }
+    return output;
+}
+
 void cube_print(struct cube *self) {
     if (self) {
         slot_list_print(self->head);

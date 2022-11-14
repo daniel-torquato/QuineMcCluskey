@@ -20,8 +20,10 @@ Test(cube, append) {
 
         cube_append(cube, slot_list);
     }
+    struct cube *resolved = cube_resolve(cube);
     cube_print(cube);
-    cr_expect(true, "ok");
+    cube_print(resolved);
+    cr_expect(resolved != NULL, "cube could not be resolved");
     cube_free(cube);
-
+    cube_free(resolved);
 }
