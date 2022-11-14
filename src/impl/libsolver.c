@@ -12,6 +12,29 @@ struct solver *solver_init() {
     return output;
 }
 
+void solver_append(struct solver *self, struct cube *input) {
+    if (self) {
+        struct cube_list *new = (struct cube_list *) malloc (sizeof(struct cube_list));
+        self->size++;
+        new->val = input;
+        new->next = NULL;
+        if (self->tail) {
+            self->tail->next = new;
+            self->tail = new;
+        } else {
+            self->size = 1;
+            self->head = new;
+            self->tail = new;
+        }
+    }
+}
+
+void solver_print(struct solver *self) {
+    if (self) {
+        cube_list_print(self->head);
+    }
+}
+
 void solver_free(struct solver *self) {
     if (self) {
         cube_list_free(self->head);

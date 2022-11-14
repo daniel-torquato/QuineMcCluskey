@@ -15,8 +15,9 @@ void cube_list_print(struct cube_list *self) {
     if(self) {
         for(struct cube_list *walker = self; walker; walker = walker->next) {
             if (walker->val) {
-                printf("level = [%d]", walker->val->level);
+                printf("level = [%d]\n", walker->val->level);
                 cube_print(walker->val);
+                printf("<>\n");
             }
         }
     }
