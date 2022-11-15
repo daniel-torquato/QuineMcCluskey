@@ -29,6 +29,17 @@ void solver_append(struct solver *self, struct cube *input) {
     }
 }
 
+void solver_resolve(struct solver *self) {
+    if (self) {
+        for (struct cube_list *walker = self->head; walker; walker = walker->next) {
+            struct cube *resolved = cube_resolve(walker->val);
+            if (resolved) {
+                solver_append(self, resolved);
+            }
+        }
+    }
+}
+
 void solver_print(struct solver *self) {
     if (self) {
         cube_list_print(self->head);

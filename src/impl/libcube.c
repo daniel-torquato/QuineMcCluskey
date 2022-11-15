@@ -34,6 +34,9 @@ struct cube *cube_resolve(struct cube *self) {
                 output->tail = walker;
                 output->size++;
             }
+        } else {
+            cube_free(output);
+            output = NULL;
         }
     }
     return output;

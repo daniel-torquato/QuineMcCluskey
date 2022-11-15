@@ -19,6 +19,8 @@ void solver_append(struct solver *self, struct cube *input);
 
 void solver_print(struct solver *self);
 
+void solver_resolve(struct solver *self);
+
 void solver_free(struct solver *self);
 
 #endif //QUINEMCCLUSKEY_LIBSOLVER_H

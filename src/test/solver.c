@@ -19,7 +19,9 @@ Test(solver, test) {
         slot_list_append(slot_list, slot);
         cube_append(buffer, slot_list);
     }
+    cr_log_warn("testing solver");
     solver_append(solver, buffer);
+    solver_resolve(solver);
     solver_print(solver);
     cr_expect(true, "ok");
     solver_free(solver);

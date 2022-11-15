@@ -79,6 +79,10 @@ struct slot_list *slot_list_resolve(struct slot_list *self) {
                 slot_list_append(output, merged);
             }
         }
+        if(output->val == NULL) {
+            slot_list_free(output);
+            output = NULL;
+        }
     }
     return output;
 }
