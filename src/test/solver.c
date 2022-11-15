@@ -5,7 +5,7 @@
 #include "libsolver.h"
 #include "libcell.h"
 
-Test(solver, test) {
+Test(solver, resolve) {
     int input[] = {2, 3, 5, 8};
     int size = sizeof(input) / sizeof(int);
 
@@ -19,10 +19,17 @@ Test(solver, test) {
         slot_list_append(slot_list, slot);
         cube_append(buffer, slot_list);
     }
-    cr_log_warn("testing solver");
+
     solver_append(solver, buffer);
     solver_resolve(solver);
     solver_print(solver);
     cr_expect(true, "ok");
     solver_free(solver);
+}
+
+Test(solver, warnigs) {
+    /**
+     * If the last test had log_warn the makefile fails
+     */
+    cr_expect(true, "ok");
 }
