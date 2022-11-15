@@ -4,7 +4,6 @@
 #include <criterion/criterion.h>
 #include <string.h>
 #include "libslot.h"
-#include "libint_handler.h"
 #include "libcell.h"
 
 Test(slot, init) {
@@ -20,20 +19,16 @@ Test(slot, append) {
     int test_input[] = {11, 8, 12, 1024, 2048};
     int test_output[] = {3, 1, 2, 1, 1};
     for (int i=0; i<sizeof(test_input)/sizeof(int); i++) {
-        int test = test_input[i];
-        char *input = int_to_char_array(test);
-        int rank = count_ones(input);
-        struct slot *slot = slot_init(rank);
-        struct cell *input_cell = cell_init(input, false);
+        struct cell *input_cell = cell_init_int(test_input[i]);
+        struct slot *slot = slot_init(cell_ones(input_cell));
         slot_append(slot, input_cell);
         cr_expect(slot != NULL, "slot is wrong");
         cr_expect(slot->rank == test_output[i], "rank is wrong for %d", i);
         cr_expect(slot->head != NULL, "cells is wrong");
         cr_expect(slot->size == 1, "size is wrong");
-        cr_expect(slot->head != NULL, "head is wrong");
         cr_expect(slot->tail != NULL, "tail is wrong");
         cr_expect(slot->head == slot->tail, "head != tail in cells");
-        struct cell *under_test_word = cell_init(input, false);
+        struct cell *under_test_word = cell_init_int(test_input[i]);
         cr_expect(cell_compare(slot->head->val, under_test_word) == 0, "val is wrong");
         cell_free(under_test_word, false);
         slot_free(slot);
@@ -54,7 +49,7 @@ Test(slot, merge) {
     int size_output = sizeof(output)/sizeof(char *);
 
     for (int i=0; i<size_a; i++) {
-        struct cell *input_cell = cell_init(int_to_char_array(input_a[i]), false);
+        struct cell *input_cell = cell_init_int(input_a[i]);
         slot_append(slot_a, input_cell);
     }
 
@@ -63,7 +58,7 @@ Test(slot, merge) {
     slot_a->rank = cell_ones(slot_a->head->val);
 
     for (int i=0; i<size_b; i++) {
-        struct cell *input_cell = cell_init(int_to_char_array(input_b[i]), false);
+        struct cell *input_cell = cell_init_int(input_b[i]);
         slot_append(slot_b, input_cell);
     }
 
