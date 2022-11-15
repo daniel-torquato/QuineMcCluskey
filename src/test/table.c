@@ -2,14 +2,14 @@
 // Created by daniel on 11/14/22.
 //
 #include <criterion/criterion.h>
-#include "libsolver.h"
+#include "libtable.h"
 #include "libcell.h"
 
-Test(solver, resolve) {
+Test(table, resolve) {
     int input[] = {2, 3, 5, 8};
     int size = sizeof(input) / sizeof(int);
 
-    struct solver *solver = solver_init();
+    struct table *solver = table_init();
     struct cube *buffer = cube_init(0);
     for (int i = 0; i < size; i++) {
         struct cell *cell = cell_init_int(input[i]);
@@ -20,11 +20,11 @@ Test(solver, resolve) {
         cube_append(buffer, slot_list);
     }
 
-    solver_append(solver, buffer);
-    solver_resolve(solver);
-    solver_print(solver);
+    table_append(solver, buffer);
+    table_resolve(solver);
+    table_print(solver);
     cr_expect(true, "ok");
-    solver_free(solver);
+    table_free(solver);
 }
 
 Test(solver, warnigs) {

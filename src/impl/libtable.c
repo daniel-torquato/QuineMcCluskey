@@ -2,17 +2,17 @@
 // Created by daniel on 11/14/22.
 //
 #include <malloc.h>
-#include "libsolver.h"
+#include "libtable.h"
 
-struct solver *solver_init() {
-    struct solver *output = (struct solver *) malloc(sizeof(struct solver));
+struct table *table_init() {
+    struct table *output = (struct table *) malloc(sizeof(struct table));
     output->head = NULL;
     output->tail = NULL;
     output->size = 0;
     return output;
 }
 
-void solver_append(struct solver *self, struct cube *input) {
+void table_append(struct table *self, struct cube *input) {
     if (self) {
         struct cube_list *new = (struct cube_list *) malloc (sizeof(struct cube_list));
         self->size++;
@@ -29,24 +29,24 @@ void solver_append(struct solver *self, struct cube *input) {
     }
 }
 
-void solver_resolve(struct solver *self) {
+void table_resolve(struct table *self) {
     if (self) {
         for (struct cube_list *walker = self->head; walker; walker = walker->next) {
             struct cube *resolved = cube_resolve(walker->val);
             if (resolved) {
-                solver_append(self, resolved);
+                table_append(self, resolved);
             }
         }
     }
 }
 
-void solver_print(struct solver *self) {
+void table_print(struct table *self) {
     if (self) {
         cube_list_print(self->head);
     }
 }
 
-void solver_free(struct solver *self) {
+void table_free(struct table *self) {
     if (self) {
         cube_list_free(self->head);
     }
