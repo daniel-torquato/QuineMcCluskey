@@ -69,8 +69,7 @@ int cell_ones(struct cell *self) {
 int cell_compare(struct cell *a, struct cell *b) {
     int output = -1;
     if (a && b) {
-        output = strcmp(a->word, b->word) != 0;
-        output +=  (a->flag != b->flag);
+        output = strcmp(a->word, b->word);
     }
     return output;
 }
