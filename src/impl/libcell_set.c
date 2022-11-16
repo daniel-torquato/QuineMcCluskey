@@ -15,27 +15,32 @@ struct cell_set *cell_set_init() {
 void cell_set_append(struct cell_set *self, struct cell *input) {
     if (self && input) {
         struct cell_set *walker = self ;
-        int test = 0;
+        int test;
         do {
-            test = cell_compare(walker->val, input);
-            if (test < 0) {
-                if (walker->right)
-                    walker = walker->right;
-                else {
-                    walker->right = cell_set_init();
-                    walker->right->val = input;
-                    test = 0;
+            if (walker->val) {
+                test = cell_compare(walker->val, input);
+                if (test < 0) {
+                    if (walker->right)
+                        walker = walker->right;
+                    else {
+                        walker->right = cell_set_init();
+                        walker->right->val = input;
+                        test = 0;
+                    }
+                } else if (test > 0) {
+                    if (walker->left)
+                        walker = walker->left;
+                    else {
+                        walker->left = cell_set_init();
+                        walker->left->val = input;
+                        test = 0;
+                    }
                 }
-            } else if (test > 0) {
-                if (walker->left)
-                    walker = walker->left;
-                else {
-                    walker->left = cell_set_init();
-                    walker->left->val = input;
-                    test = 0;
-                }
+            } else {
+                walker->val = input;
+                test = 0;
             }
-        } while (test != 0);
+        } while (test != 0 && walker);
     }
 }
 
