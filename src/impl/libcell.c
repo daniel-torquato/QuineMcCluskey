@@ -82,7 +82,7 @@ void cell_print(struct cell *self) {
 
 void cell_free(struct cell *self, bool free_word) {
     if (self) {
-        if (free_word) {
+        if (free_word && self->word) {
             free(self->word);
             self->word = NULL;
         }
