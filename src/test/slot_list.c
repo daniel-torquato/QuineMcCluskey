@@ -22,7 +22,7 @@ Test(slot_list, append) {
 }
 
 Test(slot_list, resolve) {
-    int input[] = {2, 3, 5, 11, 23, 47, 61};
+    int input[] = {2, 3, 5, 11, 13, 23, 47, 61};
     int size = sizeof(input)/sizeof(int);
 
     struct slot_list *input_slot_list = slot_list_init();

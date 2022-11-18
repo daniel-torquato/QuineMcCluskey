@@ -6,7 +6,7 @@
 #include "libcell.h"
 
 Test(table, resolve) {
-    int input[] = {2, 3, 5, 8};
+    int input[] = {4, 8, 9, 10, 11, 12, 14,15};
     int size = sizeof(input) / sizeof(int);
 
     struct table *solver = table_init();
