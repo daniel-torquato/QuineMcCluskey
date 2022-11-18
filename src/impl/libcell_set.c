@@ -59,6 +59,7 @@ struct cell_set *cell_set_merge(struct cell_set *a, struct cell_set *b) {
         cell_set_merge_recursive(a, b, output);
         if (output->val == NULL) {
             cell_set_free(output);
+            output = NULL;
         }
     }
     return output;

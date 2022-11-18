@@ -10,6 +10,7 @@
 struct slot *slot_init(int rank) {
     struct slot *output = (struct slot *) malloc(sizeof(struct slot));
     output->rank = rank;
+    output->val = NULL;
     return output;
 }
 
