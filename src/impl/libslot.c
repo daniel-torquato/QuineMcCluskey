@@ -3,63 +3,44 @@
 //
 #include <stdio.h>
 #include <libslot.h>
-#include <string.h>
-#include "libbitset_array.h"
+#include <malloc.h>
 #include "libcell.h"
+#include "libcell_set.h"
 
 struct slot *slot_init(int rank) {
     struct slot *output = (struct slot *) malloc(sizeof(struct slot));
-    output->size = 0;
     output->rank = rank;
-    output->head = NULL;
-    output->tail = NULL;
     return output;
 }
 
 void slot_append(struct slot *self, struct cell *input) {
     if (self) {
-        struct cell_list *new = (struct cell_list *) malloc (sizeof(struct cell_list));
-        self->size++;
-        new->val = input;
-        new->next = NULL;
-        if (self->tail) {
-            self->tail->next = new;
-            self->tail = new;
-        } else {
-            self->size = 1;
-            self->head = new;
-            self->tail = new;
-        }
+        if (self->val == NULL)
+            self->val = cell_set_init();
+        cell_set_append(self->val, input);
     }
 }
 
 void slot_append_slot(struct slot *self, struct slot *input) {
     if (self && input) {
-        if (self->tail) {
-            self->tail->next = input->head;
-        } else {
-            self->head = input->head;
-        }
-        self->size += input->size;
-        self->tail = input->tail;
+        cell_set_append_cell_set(self->val, input->val);
     }
 }
 
 void  slot_print(struct slot *self) {
     if (self) {
         printf("%d: ", self->rank);
-        cell_list_print(self->head);
+        cell_set_print(self->val);
     }
 }
 
 struct slot *slot_merge(struct slot *a, struct slot *b) {
     struct slot *output = NULL;
     if (a && b) {
-        struct cell_list *merged = cell_list_merge(a->head, b->head);
+        struct cell_set *merged = cell_set_merge(a->val, b->val);
         if (merged) {
             output = slot_init(a->rank);
-            output->head = merged;
-            output->size = cell_list_size(output->head);
+            output->val = merged;
         }
     }
     return output;
@@ -67,7 +48,7 @@ struct slot *slot_merge(struct slot *a, struct slot *b) {
 
 void slot_free(struct slot *self) {
     if (self) {
-        cell_list_free(self->head);
+        cell_set_free(self->val);
         free (self);
     }
 }

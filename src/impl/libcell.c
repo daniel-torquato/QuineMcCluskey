@@ -53,6 +53,9 @@ struct cell *cell_merge(struct cell *a, struct cell *b) {
         if (diff > 1) {
             cell_free(output, true);
             output = NULL;
+        } else {
+            a->flag = true;
+            b->flag = true;
         }
     }
     return output;
